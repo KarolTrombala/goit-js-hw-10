@@ -65,7 +65,8 @@ function fillCatList(breeds) {
     });
   }
 
-fetchBreeds()
+  function initCatApp () {
+      fetchBreeds()
       .then(response => {
         const breeds = response.data;
         fillCatList(breeds);
@@ -82,4 +83,8 @@ fetchBreeds()
       .finally(() => {
         loader.style.display = 'none';
       });
+    }
 
+    document.addEventListener('DOMContentLoaded', () => {
+        initCatAppApp();
+      });
