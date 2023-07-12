@@ -26,7 +26,7 @@ function selectCat (e) {
 }
 
 function fetchCat() {
-fetchCatByBreed(breeId)
+   fetchCatByBreed(breeId)
    .then(response => {
     const catItemInfo = response.data[0];
     showCat (catItemInfo)
@@ -66,6 +66,7 @@ function fillCatList(breeds) {
   }
 
   function initCatApp () {
+    loader.style.display = 'block';
       fetchBreeds()
       .then(response => {
         const breeds = response.data;
