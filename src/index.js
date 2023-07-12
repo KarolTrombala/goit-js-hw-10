@@ -1,5 +1,7 @@
 import axios from 'axios';
+import { fetchBreeds, fetchCatByBreed } from './cat-api.js';
 import SlimSelect from 'slim-select';
+import '../node_modules/slim-select/dist/slimselect.css';
 import Notiflix from 'notiflix';
 
 axios.defaults.headers.common['x-api-key'] =
@@ -17,26 +19,28 @@ function selectCat (e) {
     if(breedId) {
         loader.style.display = 'block';
         error.style.display = 'none';
+        fetchCat();
+    } else {
+        loader.style.display = 'none';
     }
 }
 
-function fetchCat (breedId) {
-    axios
-    .get('https://api.thecatapi.com/v1/images/search?breed_ids=${breedId')
+function fetchCat() {
+fetchCatByBreed(breeId)
    .then(response => {
     const catItemInfo = response.data[0];
     showCat (catItemInfo)
     })
     .catch(error => {
-        console.error(error);
-      showError();
+        Notiflix.Notify.failure('Upps! Coś poszło nie tak. Odśwież stronę jeszcze raz.');
+        return error;
     }) 
     .finally(() => {
         loader.style.display = 'none';
-    }) ;
+    });
 }
 
-function showCat (catItemInfo) {
+function showCat(catItemInfo) {
     const { name, description, temperament } = catInfo.breeds[0];
   const { url } = catInfo;
   const catInfoHTML = `
@@ -51,3 +55,31 @@ function showCat (catItemInfo) {
   catInfo.innerHTML = catInfoHTML;
   catInfo.style.display = 'block';
 }
+
+function fillCatList(breeds) {
+    breeds.forEach(breed => {
+      const option = document.createElement('option');
+      option.value = breed.id;
+      option.textContent = breed.name;
+      breedSelect.appendChild(option);
+    });
+  }
+
+fetchBreeds()
+      .then(response => {
+        const breeds = response.data;
+        fillCatList(breeds);
+        var select = new SlimSelect({
+            select: '.breed-select',
+          });
+          Notiflix.Notify.info(
+            'Wybierz rasę z listy, aby wyświetlić więcej informacji.'
+          );
+      })
+      .catch(error => {
+        console.error(error);
+      })
+      .finally(() => {
+        loader.style.display = 'none';
+      });
+
