@@ -14,34 +14,36 @@ const catInfo = document.querySelector('.cat-info');
 
 breedSelect.addEventListener('change', selectCat);
 
-function selectCat (e) {
-    const breedId = e.target.value;
-    if(breedId) {
-        loader.style.display = 'block';
-        error.style.display = 'none';
-        fetchCat();
-    } else {
-        loader.style.display = 'none';
-    }
+function selectCat(e) {
+  const breedId = e.target.value;
+  if (breedId) {
+    loader.style.display = 'block';
+    error.style.display = 'none';
+    fetchCat();
+  } else {
+    loader.style.display = 'none';
+  }
 }
 
 function fetchCat() {
-   fetchCatByBreed(breeId)
-   .then(response => {
-    const catItemInfo = response.data[0];
-    showCat (catItemInfo)
+  fetchCatByBreed(breeId)
+    .then(response => {
+      const catItemInfo = response.data[0];
+      showCat(catItemInfo);
     })
     .catch(error => {
-        Notiflix.Notify.failure('Upps! Coś poszło nie tak. Odśwież stronę jeszcze raz.');
-        return error;
-    }) 
+      Notiflix.Notify.failure(
+        'Upps! Coś poszło nie tak. Odśwież stronę jeszcze raz.'
+      );
+      return error;
+    })
     .finally(() => {
-        loader.style.display = 'none';
+      loader.style.display = 'none';
     });
 }
 
 function showCat(catItemInfo) {
-    const { name, description, temperament } = catInfo.breeds[0];
+  const { name, description, temperament } = catInfo.breeds[0];
   const { url } = catInfo;
   const catInfoHTML = `
     <div>
@@ -57,35 +59,35 @@ function showCat(catItemInfo) {
 }
 
 function fillCatList(breeds) {
-    breeds.forEach(breed => {
-      const option = document.createElement('option');
-      option.value = breed.id;
-      option.textContent = breed.name;
-      breedSelect.appendChild(option);
+  breeds.forEach(breed => {
+    const option = document.createElement('option');
+    option.value = breed.id;
+    option.textContent = breed.name;
+    breedSelect.appendChild(option);
+  });
+}
+
+function initCatApp() {
+  loader.style.display = 'block';
+  fetchBreeds()
+    .then(response => {
+      const breeds = response.data;
+      fillCatList(breeds);
+      var select = new SlimSelect({
+        select: '.breed-select',
+      });
+      Notiflix.Notify.info(
+        'Wybierz rasę z listy, aby wyświetlić więcej informacji.'
+      );
+    })
+    .catch(error => {
+      console.error(error);
+    })
+    .finally(() => {
+      loader.style.display = 'none';
     });
-  }
+}
 
-  function initCatApp () {
-    loader.style.display = 'block';
-      fetchBreeds()
-      .then(response => {
-        const breeds = response.data;
-        fillCatList(breeds);
-        var select = new SlimSelect({
-            select: '.breed-select',
-          });
-          Notiflix.Notify.info(
-            'Wybierz rasę z listy, aby wyświetlić więcej informacji.'
-          );
-      })
-      .catch(error => {
-        console.error(error);
-      })
-      .finally(() => {
-        loader.style.display = 'none';
-      });
-    }
-
-    document.addEventListener('DOMContentLoaded', () => {
-        initCatApp();
-      });
+document.addEventListener('DOMContentLoaded', () => {
+  initCatApp();
+});
