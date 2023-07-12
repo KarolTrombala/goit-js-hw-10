@@ -86,5 +86,5 @@ function fillCatList(breeds) {
     }
 
     document.addEventListener('DOMContentLoaded', () => {
-        initCatAppApp();
+        initCatApp();
       });
