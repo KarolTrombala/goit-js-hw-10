@@ -4,6 +4,10 @@ import SlimSelect from 'slim-select';
 import '../node_modules/slim-select/dist/slimselect.css';
 import Notiflix from 'notiflix';
 
+Notiflix.Notify.init({
+  position: 'center-center'
+});
+
 axios.defaults.headers.common['x-api-key'] =
   'live_ll4GIjvo9ClYsMVe1gwe9R5jiQQNgNMPwreF7lvehA0lqTrAYQERaVkPMedGtuFB';
 
@@ -19,16 +23,16 @@ function selectCat(e) {
   if (breedId) {
     loader.style.display = 'block';
     error.style.display = 'none';
-    fetchCat();
+    fetchCat(breedId);
   } else {
     loader.style.display = 'none';
   }
 }
 
-function fetchCat() {
+function fetchCat(breedId) {
   fetchCatByBreed(breedId)
     .then(response => {
-      const catItemInfo = response.data[0];
+      const catItemInfo = response;
       showCat(catItemInfo);
     })
     .catch(error => {
@@ -43,8 +47,8 @@ function fetchCat() {
 }
 
 function showCat(catItemInfo) {
-  const { name, description, temperament } = catInfo.breeds[0];
-  const { url } = catInfo;
+  const { name, description, temperament } = catItemInfo[0].breeds[0];
+  const { url } = catItemInfo[0];
   const catInfoHTML = `
     <div>
     <img  src="${url}" alt="">
@@ -70,8 +74,7 @@ function fillCatList(breeds) {
 function initCatApp() {
   loader.style.display = 'block';
   fetchBreeds()
-    .then(response => {
-      const breeds = response.data;
+    .then(breeds => {
       fillCatList(breeds);
       var select = new SlimSelect({
         select: '.breed-select',
