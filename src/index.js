@@ -26,7 +26,7 @@ function selectCat(e) {
 }
 
 function fetchCat() {
-  fetchCatByBreed(breeId)
+  fetchCatByBreed(breedId)
     .then(response => {
       const catItemInfo = response.data[0];
       showCat(catItemInfo);
