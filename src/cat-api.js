@@ -17,4 +17,3 @@ export function fetchCatByBreed(breedId) {
       console.error(error);
     });
 }
-
