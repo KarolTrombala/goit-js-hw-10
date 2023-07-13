@@ -5,7 +5,7 @@ import '../node_modules/slim-select/dist/slimselect.css';
 import Notiflix from 'notiflix';
 
 Notiflix.Notify.init({
-  position: 'center-center'
+  position: 'center-top'
 });
 
 axios.defaults.headers.common['x-api-key'] =

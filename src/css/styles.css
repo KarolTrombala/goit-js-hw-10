@@ -1,0 +1,9 @@
+body {
+    font-size: 24px;
+  }
+  .breed-select {
+    margin-bottom: 20px;
+    width: 300px !important;
+    overflow-y: auto;
+    scroll-behavior: smooth;
+  }
