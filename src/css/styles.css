@@ -11,6 +11,7 @@ body {
 .postImage {
   padding-right: 20px;
   max-width: 400px;
+  max-height: 400px;
 }
 
 .postWrapper {
@@ -19,4 +20,5 @@ body {
 
 .postWrapper p {
   max-width: 600px;
+  max-height: 400px;
 }
