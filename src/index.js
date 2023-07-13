@@ -5,7 +5,7 @@ import '../node_modules/slim-select/dist/slimselect.css';
 import Notiflix from 'notiflix';
 
 Notiflix.Notify.init({
-  position: 'center-top'
+  position: 'center-top',
 });
 
 axios.defaults.headers.common['x-api-key'] =
@@ -18,11 +18,12 @@ const catInfo = document.querySelector('.cat-info');
 
 breedSelect.addEventListener('change', selectCat);
 
+error.style.display = 'none';
+
 function selectCat(e) {
   const breedId = e.target.value;
   if (breedId) {
     loader.style.display = 'block';
-    error.style.display = 'none';
     fetchCat(breedId);
   } else {
     loader.style.display = 'none';
@@ -50,8 +51,8 @@ function showCat(catItemInfo) {
   const { name, description, temperament } = catItemInfo[0].breeds[0];
   const { url } = catItemInfo[0];
   const catInfoHTML = `
-    <div>
-    <img  src="${url}" alt="">
+    <img class="postImage" src="${url}" alt="">
+    <div class="postWrapper">
       <h2>${name}</h2>
       <p><strong>Description:</strong> ${description}</p>
       <p><strong>Temperament:</strong> ${temperament}</p>
